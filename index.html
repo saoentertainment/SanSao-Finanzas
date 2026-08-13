@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Control SanSao 🎸</title>
 <meta name="theme-color" content="#1a1025">
+<meta property="og:title" content="Control SanSao 🎸">
+<meta property="og:description" content="Sandy + SAO · La Femme & Casa 💜">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://saoentertainment.github.io/SanSao-Finanzas/android-chrome-512x512.png">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -66,17 +70,23 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 .tp th,.tp td{padding:6px 4px;border:1px solid rgba(233,30,140,.2);text-align:right}
 .tp th{color:var(--rosa);background:rgba(233,30,140,.1)}
 .tp td:first-child,.tp th:first-child{text-align:left}
-.nav-inferior{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;justify-content:space-around;padding:6px 0;border-top:1px solid rgba(233,30,140,.3);z-index:1000}
-.nav-btn{background:none;border:none;color:var(--gris);font-size:9px;text-align:center;cursor:pointer;padding:4px 6px;border-radius:8px}
+.nav-inferior{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid rgba(233,30,140,.3);z-index:1000}
+.nav-btn{background:none;border:none;color:var(--gris);font-size:10px;text-align:center;cursor:pointer;padding:4px 10px;border-radius:8px}
 .nav-btn.activo{color:var(--mag)}
-.nav-btn span{font-size:18px;display:block}
-@media print{body{background:#fff;color:#000}.nav-inferior,.btn,.no-print{display:none!important}.pantalla{display:block!important}.card{border:1px solid #ccc}}
+.nav-btn span{font-size:20px;display:block}
+.fab{position:fixed;right:16px;bottom:78px;width:56px;height:56px;border-radius:50%;background:var(--mag);color:#fff;font-size:24px;border:none;box-shadow:0 4px 16px rgba(233,30,140,.5);z-index:1500;cursor:pointer;transition:transform .2s}
+.fab:active{transform:scale(.9)}
+.menu-flotante{position:fixed;right:16px;bottom:142px;background:var(--card);border:1px solid var(--mag);border-radius:14px;padding:8px;display:none;z-index:1500;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.menu-flotante.visible{display:block;animation:fadeIn .2s}
+.menu-flotante button{display:block;width:100%;background:none;border:none;color:var(--bl);padding:12px 14px;font-size:14px;text-align:left;border-radius:8px;cursor:pointer}
+.menu-flotante button:active{background:rgba(233,30,140,.2)}
+@media print{body{background:#fff;color:#000}.nav-inferior,.btn,.fab,.menu-flotante,.no-print{display:none!important}.pantalla{display:block!important}.card{border:1px solid #ccc}}
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 
-<!-- ═══ HOME ═══ -->
+<!-- ═══ HOME ══ -->
 <div class="pantalla activa" id="pantalla-home">
 <h1>💜 Control SanSao</h1>
 <p class="chico">Sandy + SAO · La Femme & Casa</p>
@@ -98,8 +108,9 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <div class="btn-grupo" style="margin-top:14px">
 <button class="btn btn-principal" onclick="irA('gym')">🩰 Ir al GYM</button>
 <button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="irA('casa')">🏡 Ir a CASA</button>
+<button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="irA('presup')">💰 Ir a PRESUPUESTOS</button>
 </div>
-<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1.1 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
+<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1.2 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
 </div>
 
 <!-- ═══ GYM ═══ -->
@@ -183,6 +194,14 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 </div>
 <h2>📋 Historial</h2>
 <div id="lista-gastos-casa"></div>
+</div>
+
+<!-- ═══ PRESUPUESTOS ═══ -->
+<div class="pantalla" id="pantalla-presup">
+<h1>💰 Presupuestos</h1>
+<p class="chico">El método de los sobres: tu dinero con nombre y apellido 📥</p>
+<button class="btn btn-principal btn-chico" onclick="modalSobre()">➕ Nuevo sobre</button>
+<div id="lista-sobres"></div>
 </div>
 
 <!-- ═══ DEUDAS ═══ -->
@@ -278,16 +297,21 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 
 <div class="modal-overlay" id="modal-overlay"><div class="modal" id="modal-contenido"></div></div>
 
+<!-- ═══ MENÚ v1.2 ═══ -->
 <nav class="nav-inferior">
 <button class="nav-btn activo" data-p="home" onclick="irA('home')"><span>🏠</span>Home</button>
 <button class="nav-btn" data-p="gym" onclick="irA('gym')"><span>🩰</span>GYM</button>
 <button class="nav-btn" data-p="casa" onclick="irA('casa')"><span>🏡</span>Casa</button>
+<button class="nav-btn" data-p="presup" onclick="irA('presup')"><span>💰</span>Presup</button>
 <button class="nav-btn" data-p="deudas" onclick="irA('deudas')"><span>💳</span>Deudas</button>
-<button class="nav-btn" data-p="recursos" onclick="irA('recursos')"><span>📦</span>Rec.</button>
-<button class="nav-btn" data-p="proy" onclick="irA('proy')"><span>📈</span>Proy.</button>
-<button class="nav-btn" data-p="sync" onclick="irA('sync')"><span>🔄</span>Sync</button>
-<button class="nav-btn" data-p="reporte" onclick="irA('reporte')"><span>📄</span>Rep.</button>
 </nav>
+<button class="fab" onclick="toggleMas()">🎸</button>
+<div class="menu-flotante" id="menu-flotante">
+<button onclick="irA('recursos')">📦 Recursos</button>
+<button onclick="irA('proy')">📈 Proyección</button>
+<button onclick="irA('sync')">🔄 Sync</button>
+<button onclick="irA('reporte')">📄 Reporte</button>
+</div>
 
 <script>
 // ═══ DATOS ═══
@@ -297,7 +321,8 @@ function datosIniciales(){return{
 alumnas:[],cobrosAlumnas:[],productos:[],ventas:[],metasGym:[],pagosMetas:[],
 coppel:{solicitado:16000,totalAPagar:24714.68,pagoMensual:2072,plazoMeses:12,abonos:[]},
 inversiones:[],recuperaciones:[],configRecuperacion:{modo:'auto',porcentaje:30},
-gastosCasa:[],deudaSandy:{prestamos:[],abonos:[]},
+gastosCasa:[],sobres:[],gastosSobre:[],
+deudaSandy:{prestamos:[],abonos:[]},
 recursos:[
 {id:'r1',nombre:'Cubrebocas',valor:500,estado:'Disponible',nota:''},
 {id:'r2',nombre:'Ropa usada remates',valor:1500,estado:'Disponible',nota:''},
@@ -306,8 +331,9 @@ recursos:[
 {id:'r5',nombre:'Micrófonos',valor:6500,estado:'En uso',nota:''},
 {id:'r6',nombre:'Mezcladoras audio',valor:12000,estado:'En uso',nota:''}],
 proyeccion:{},
-config:{nombreApp:'Control SanSao',version:1.1,ultimaExportacion:null,ultimoImport:null}};}
-function cargarDatos(){try{const r=localStorage.getItem(CLAVE);if(r){DATA=JSON.parse(r);}else{DATA=datosIniciales();guardarDatos();}}catch(e){DATA=datosIniciales();}}
+config:{nombreApp:'Control SanSao',version:1.2,ultimaExportacion:null,ultimoImport:null}};}
+function cargarDatos(){try{const r=localStorage.getItem(CLAVE);if(r){DATA=JSON.parse(r);}else{DATA=datosIniciales();guardarDatos();}}catch(e){DATA=datosIniciales();}
+DATA.sobres=DATA.sobres||[];DATA.gastosSobre=DATA.gastosSobre||[];}
 function guardarDatos(){localStorage.setItem(CLAVE,JSON.stringify(DATA));}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
 function hoyISO(){return new Date().toISOString().split('T')[0];}
@@ -315,8 +341,9 @@ function money(n){return '$'+Number(n).toLocaleString('es-MX',{minimumFractionDi
 function fFecha(iso){if(!iso)return'';const[y,m,d]=iso.split('-');const M=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return d+'/'+M[parseInt(m)-1];}
 
 // ═══ NAV ═══
-function irA(p){document.querySelectorAll('.pantalla').forEach(x=>x.classList.remove('activa'));document.getElementById('pantalla-'+p).classList.add('activa');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('activo',b.dataset.p===p));
-if(p==='home')renderHome();if(p==='gym')renderGym();if(p==='casa')renderCasa();if(p==='deudas')renderDeudas();if(p==='recursos')renderRecursos();if(p==='proy')renderProy();if(p==='sync')renderSync();}
+function irA(p){document.querySelectorAll('.pantalla').forEach(x=>x.classList.remove('activa'));document.getElementById('pantalla-'+p).classList.add('activa');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('activo',b.dataset.p===p));document.getElementById('menu-flotante').classList.remove('visible');
+if(p==='home')renderHome();if(p==='gym')renderGym();if(p==='casa')renderCasa();if(p==='presup')renderSobres();if(p==='deudas')renderDeudas();if(p==='recursos')renderRecursos();if(p==='proy')renderProy();if(p==='sync')renderSync();}
+function toggleMas(){document.getElementById('menu-flotante').classList.toggle('visible');}
 function gymTab(t,btn){['alumnas','ventas','metas','coppel','inversiones'].forEach(x=>{document.getElementById('gym-'+x).style.display=x===t?'block':'none';});document.querySelectorAll('#gym-tabs .tab-btn').forEach(b=>b.classList.remove('activa'));btn.classList.add('activa');renderGym();}
 function deudaTab(t,btn){document.getElementById('deuda-sandy').style.display=t==='sandy'?'block':'none';document.getElementById('deuda-coppel').style.display=t==='coppel'?'block':'none';document.querySelectorAll('#pantalla-deudas .tab-btn').forEach(b=>b.classList.remove('activa'));btn.classList.add('activa');renderDeudas();}
 function casaOtroToggle(){document.getElementById('casa-otro-wrap').style.display=document.getElementById('casa-categoria').value==='Otro'?'block':'none';}
@@ -383,6 +410,19 @@ const g=[...DATA.gastosCasa].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0
 if(!g.length){el.innerHTML='<div class="vacio">Sin gastos registrados</div>';return;}
 el.innerHTML=g.map(x=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${x.categoria==='Otro'?x.concepto:x.categoria}</div><div class="lista-item-detalle">${fFecha(x.fecha)} · ${x.quienPago}${x.nota?' · '+x.nota:''}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--rojo)">${money(x.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarGastoCasa('${x.id}')">🗑️</button></div></div>`).join('');}
 
+// ═══ RENDER PRESUPUESTOS ═══
+function renderSobres(){const el=document.getElementById('lista-sobres');
+if(!DATA.sobres.length){el.innerHTML='<div class="vacio">Sin sobres aún. Creá el primero: "Comida semanal" 🍽️</div>';return;}
+el.innerHTML=DATA.sobres.map(s=>{
+const gs=DATA.gastosSobre.filter(g=>g.sobreId===s.id);
+const gast=gs.reduce((a,g)=>a+g.monto,0);
+const hoy=gs.filter(g=>g.fecha===hoyISO()).reduce((a,g)=>a+g.monto,0);
+const queda=s.monto-gast;
+const pct=Math.min(100,gast/s.monto*100);
+const col=pct<50?'barra-verde':pct<80?'barra-amarilla':'barra-roja';
+const badge=gast>s.monto?'<span class="badge badge-rojo">⚠️ PASADO</span>':'<span class="badge badge-verde">Queda '+money(queda)+'</span>';
+return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>📥 ${s.nombre}</b>${badge}</div><div class="chico" style="margin:4px 0">Presupuesto: ${money(s.monto)} · Gastado hoy: ${money(hoy)}</div><div class="barra-progreso"><div class="barra-fill ${col}" style="width:${pct}%"></div></div><div class="chico">Gastado: ${money(gast)} · Queda: ${money(queda)}</div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-verde btn-chico" onclick="modalGastoSobre('${s.id}')">➕ Gasto</button><button class="btn btn-rojo btn-chico" onclick="borrarSobre('${s.id}')">🗑️</button></div><div>${gs.slice(-4).reverse().map(g=>`<div class="lista-item" style="margin:6px 0"><div class="lista-item-info"><div class="lista-item-nombre">${g.descripcion}</div><div class="lista-item-detalle">${fFecha(g.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--rojo)">${money(g.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarGastoSobre('${g.id}')">🗑️</button></div></div>`).join('')}</div></div>`;}).join('');}
+
 // ═══ RENDER DEUDAS ═══
 function renderDeudas(){const tp=DATA.deudaSandy.prestamos.reduce((s,p)=>s+p.monto,0);const ta=DATA.deudaSandy.abonos.reduce((s,a)=>s+a.monto,0);const sal=tp-ta;
 document.getElementById('deuda-sandy-saldo').textContent=money(sal);
@@ -401,98 +441,4 @@ return `<div class="lista-item"><div class="lista-item-info"><div class="lista-i
 // ═══ RENDER SYNC ═══
 function renderSync(){document.getElementById('sync-ultimo-export').textContent=DATA.config.ultimaExportacion?fFecha(DATA.config.ultimaExportacion):'Nunca';document.getElementById('sync-ultimo-import').textContent=DATA.config.ultimoImport?fFecha(DATA.config.ultimoImport):'Nunca';}
 
-// ═══ ACCIONES GYM ═══
-function modalAlumna(){abrirModal(`<h3>➕ Nueva Alumna</h3><label>Nombre:</label><input type="text" id="m-an" placeholder="Nombre"><label>Mensualidad ($):</label><input type="number" id="m-am" placeholder="600"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarAlumna()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarAlumna(){const n=document.getElementById('m-an').value.trim();const m=parseFloat(document.getElementById('m-am').value);if(!n||!m){mostrarToast('⚠️ Completá nombre y monto');return;}DATA.alumnas.push({id:uid(),nombre:n,montoMensual:m,activa:true,fechaAlta:hoyISO()});guardarDatos();cerrarModal();renderAlumnas();renderHome();sonarDing();vibrar();mostrarToast('✅ Alumna agregada');}
-function toggleAlumna(id){const a=DATA.alumnas.find(x=>x.id===id);if(a){a.activa=!a.activa;guardarDatos();renderAlumnas();renderHome();}}
-function borrarAlumna(id){if(confirm('¿Borrar esta alumna?')){DATA.alumnas=DATA.alumnas.filter(x=>x.id!==id);guardarDatos();renderAlumnas();renderHome();mostrarToast('🗑️ Alumna borrada');}}
-function cobrarAlumna(id){const a=DATA.alumnas.find(x=>x.id===id);if(!a)return;abrirModal(`<h3>💰 Cobrar a ${a.nombre}</h3><label>Monto:</label><input type="number" id="m-cm" value="${a.montoMensual}"><label>Periodo:</label><input type="text" id="m-cp" value="${new Date().toLocaleString('es-MX',{month:'long',year:'numeric'})}"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarCobro('${id}')">💾 Registrar cobro</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarCobro(id){const m=parseFloat(document.getElementById('m-cm').value);const p=document.getElementById('m-cp').value;if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.cobrosAlumnas.push({id:uid(),alumnaId:id,fecha:hoyISO(),monto:m,periodo:p});guardarDatos();cerrarModal();renderGym();renderHome();sonarDing();vibrar();mostrarToast('✅ Cobro registrado');}
-function borrarCobro(id){if(confirm('¿Borrar este cobro?')){DATA.cobrosAlumnas=DATA.cobrosAlumnas.filter(x=>x.id!==id);guardarDatos();renderCobros();renderHome();mostrarToast('🗑️ Cobro borrado');}}
-function borrarVenta(id){if(confirm('¿Borrar esta venta?')){DATA.ventas=DATA.ventas.filter(x=>x.id!==id);guardarDatos();renderVentas();renderHome();mostrarToast('🗑️ Venta borrada');}}
-function modalProducto(){abrirModal(`<h3>➕ Nuevo producto</h3><label>Nombre:</label><input type="text" id="m-pn" placeholder="Agua, Suplemento..."><label>Precio ($):</label><input type="number" id="m-pp" placeholder="15"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarProducto()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarProducto(){const n=document.getElementById('m-pn').value.trim();const p=parseFloat(document.getElementById('m-pp').value);if(!n||!p){mostrarToast('⚠️ Completá datos');return;}DATA.productos.push({id:uid(),nombre:n,precio:p});guardarDatos();cerrarModal();renderProductos();mostrarToast('✅ Producto agregado');}
-function borrarProducto(id){if(confirm('¿Borrar producto?')){DATA.productos=DATA.productos.filter(x=>x.id!==id);guardarDatos();renderProductos();}}
-function registrarVenta(){const pid=document.getElementById('venta-producto').value;const cant=parseInt(document.getElementById('venta-cantidad').value)||1;if(!pid){mostrarToast('⚠️ Agregá un producto primero');return;}const p=DATA.productos.find(x=>x.id===pid);DATA.ventas.push({id:uid(),productoId:pid,fecha:hoyISO(),cantidad:cant,montoTotal:p.precio*cant});guardarDatos();renderVentas();renderHome();sonarDing();vibrar();mostrarToast('✅ Venta: '+money(p.precio*cant));}
-function modalMeta(){abrirModal(`<h3>➕ Nueva meta</h3><label>Concepto:</label><input type="text" id="m-mc" placeholder="Renta, Luz..."><label>Monto mensual ($):</label><input type="number" id="m-mm" placeholder="8000"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarMeta()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarMeta(){const c=document.getElementById('m-mc').value.trim();const m=parseFloat(document.getElementById('m-mm').value);if(!c||!m){mostrarToast('⚠️ Completá datos');return;}DATA.metasGym.push({id:uid(),concepto:c,montoMensual:m});guardarDatos();cerrarModal();renderMetas();mostrarToast('✅ Meta creada');}
-function pagarMeta(id){const m=DATA.metasGym.find(x=>x.id===id);if(!m)return;abrirModal(`<h3>💰 Pagar: ${m.concepto}</h3><label>Monto:</label><input type="number" id="m-pg" placeholder="0"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarPagoMeta('${id}')">💾 Registrar pago</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarPagoMeta(id){const m=parseFloat(document.getElementById('m-pg').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.pagosMetas.push({id:uid(),metaId:id,fecha:hoyISO(),monto:m});guardarDatos();cerrarModal();renderMetas();renderHome();sonarDing();vibrar();mostrarToast('✅ Pago registrado');}
-function borrarMeta(id){if(confirm('¿Borrar meta?')){DATA.metasGym=DATA.metasGym.filter(x=>x.id!==id);guardarDatos();renderMetas();}}
-function modalAbonoCoppel(){abrirModal(`<h3>🏦 Abono Coppel</h3><label>Monto (base $2,072):</label><input type="number" id="m-ac" value="2072"><label>Nota:</label><input type="text" id="m-acn" placeholder="Pago mensual / extra"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarAbonoCoppel()">💾 Registrar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarAbonoCoppel(){const m=parseFloat(document.getElementById('m-ac').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.coppel.abonos.push({id:uid(),fecha:hoyISO(),monto:m,nota:document.getElementById('m-acn').value});guardarDatos();cerrarModal();renderCoppel();renderDeudas();renderHome();sonarDing();vibrar();mostrarToast('✅ Abono Coppel');}
-function modalInversion(){abrirModal(`<h3>📦 Nueva inversión</h3><label>Concepto:</label><input type="text" id="m-ic" placeholder="Barra olímpica..."><label>Monto ($):</label><input type="number" id="m-im" placeholder="0"><label>Quién invierte:</label><select id="m-iq"><option>SAO</option><option>Sandy</option><option>Ambos</option></select><button class="btn btn-principal" style="margin-top:10px" onclick="guardarInversion()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarInversion(){const c=document.getElementById('m-ic').value.trim();const m=parseFloat(document.getElementById('m-im').value);if(!c||!m){mostrarToast('⚠️ Completá datos');return;}DATA.inversiones.push({id:uid(),concepto:c,monto:m,fecha:hoyISO(),quien:document.getElementById('m-iq').value});guardarDatos();cerrarModal();renderInversiones();mostrarToast('✅ Inversión registrada');}
-function borrarInversion(id){if(confirm('¿Borrar inversión?')){DATA.inversiones=DATA.inversiones.filter(x=>x.id!==id);guardarDatos();renderInversiones();}}
-function modalRecuperacion(){if(!DATA.inversiones.length){mostrarToast('⚠️ Primero registrá una inversión');return;}abrirModal(`<h3>💫 Recuperación</h3><label>Inversión:</label><select id="m-ri">${DATA.inversiones.map(i=>`<option value="${i.id}">${i.concepto}</option>`).join('')}</select><label>Monto ($):</label><input type="number" id="m-rm" placeholder="0"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarRecuperacion()">💾 Registrar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarRecuperacion(){const m=parseFloat(document.getElementById('m-rm').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.recuperaciones.push({id:uid(),inversionId:document.getElementById('m-ri').value,fecha:hoyISO(),monto:m});guardarDatos();cerrarModal();renderInversiones();sonarDing();mostrarToast('✅ Recuperación registrada');}
-function guardarConfigRec(){DATA.configRecuperacion.modo=document.getElementById('rec-modo').value;DATA.configRecuperacion.porcentaje=parseFloat(document.getElementById('rec-porcentaje').value)||30;guardarDatos();renderInversiones();}
-
-// ═══ ACCIONES CASA ═══
-function guardarGastoCasa(){const f=document.getElementById('casa-fecha').value||hoyISO();const cat=document.getElementById('casa-categoria').value;const m=parseFloat(document.getElementById('casa-monto').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}const conc=cat==='Otro'?(document.getElementById('casa-otro-desc').value||'Otro'):cat;DATA.gastosCasa.push({id:uid(),fecha:f,categoria:cat,concepto:conc,monto:m,quienPago:document.getElementById('casa-quien').value,nota:document.getElementById('casa-nota').value});guardarDatos();renderCasa();renderHome();sonarDing();vibrar();mostrarToast('✅ Gasto guardado');document.getElementById('casa-monto').value='';document.getElementById('casa-nota').value='';}
-function borrarGastoCasa(id){if(confirm('¿Borrar gasto?')){DATA.gastosCasa=DATA.gastosCasa.filter(x=>x.id!==id);guardarDatos();renderCasa();renderHome();mostrarToast('🗑️ Gasto borrado');}}
-
-// ═══ ACCIONES DEUDAS ═══
-function modalPrestamoSandy(){abrirModal(`<h3>➕ Préstamo a Sandy</h3><label>Monto ($):</label><input type="number" id="m-ps" placeholder="0"><label>Concepto:</label><input type="text" id="m-pc" placeholder="¿Para qué?"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarPrestamoSandy()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarPrestamoSandy(){const m=parseFloat(document.getElementById('m-ps').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.deudaSandy.prestamos.push({id:uid(),fecha:hoyISO(),monto:m,concepto:document.getElementById('m-pc').value});guardarDatos();cerrarModal();renderDeudas();renderHome();sonarDing();mostrarToast('✅ Préstamo registrado');}
-function modalAbonoSandy(){abrirModal(`<h3>💚 Abono de Sandy</h3><label>Monto ($):</label><input type="number" id="m-as" placeholder="0"><label>Nota:</label><input type="text" id="m-asn" placeholder="Opcional"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarAbonoSandy()">💾 Registrar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarAbonoSandy(){const m=parseFloat(document.getElementById('m-as').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.deudaSandy.abonos.push({id:uid(),fecha:hoyISO(),monto:m,nota:document.getElementById('m-asn').value});guardarDatos();cerrarModal();renderDeudas();renderHome();sonarDing();vibrar();mostrarToast('✅ Abono registrado');}
-
-// ═══ ACCIONES RECURSOS ═══
-function modalRecurso(){abrirModal(`<h3>➕ Nuevo recurso</h3><label>Nombre:</label><input type="text" id="m-rn" placeholder="Auto, Mezcladora..."><label>Valor estimado ($):</label><input type="number" id="m-rv" placeholder="0"><label>Estado:</label><select id="m-re"><option>Disponible</option><option>En uso</option><option>Vendido</option></select><label>Nota:</label><input type="text" id="m-rno" placeholder="Opcional"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarRecurso()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarRecurso(){const n=document.getElementById('m-rn').value.trim();const v=parseFloat(document.getElementById('m-rv').value);if(!n||!v){mostrarToast('⚠️ Completá datos');return;}DATA.recursos.push({id:uid(),nombre:n,valor:v,estado:document.getElementById('m-re').value,nota:document.getElementById('m-rno').value});guardarDatos();cerrarModal();renderRecursos();mostrarToast('✅ Recurso agregado');}
-function cambiarEstadoRecurso(id){const r=DATA.recursos.find(x=>x.id===id);if(!r)return;const est=['Disponible','En uso','Vendido'];r.estado=est[(est.indexOf(r.estado)+1)%3];guardarDatos();renderRecursos();mostrarToast('🔄 Estado: '+r.estado);}
-function borrarRecurso(id){if(confirm('¿Borrar recurso?')){DATA.recursos=DATA.recursos.filter(x=>x.id!==id);guardarDatos();renderRecursos();}}
-
-// ═══ PROYECCIÓN ═══
-function renderProy(){DATA.proyeccion=DATA.proyeccion||{};DATA.proyeccion.eventos=DATA.proyeccion.eventos||[];
-const meses=Math.min(24,parseInt(document.getElementById('proy-meses').value)||5);
-const a1=+document.getElementById('proy-a1').value||0,a2=+document.getElementById('proy-a2').value||0;
-const cuota=+document.getElementById('proy-cuota').value||0,ventas=+document.getElementById('proy-ventas').value||0;
-const renta=+document.getElementById('proy-renta').value||0,cop=+document.getElementById('proy-coppel').value||0,rev=+document.getElementById('proy-rev').value||0;
-const destino=document.getElementById('proy-destino').value;
-let saldoCop=DATA.coppel.totalAPagar-DATA.coppel.abonos.reduce((s,a)=>s+a.monto,0);
-let revAcum=0,totFin=0,rows='';const now=new Date();
-for(let i=0;i<meses;i++){const d=new Date(now.getFullYear(),now.getMonth()+i,1);
-const label=d.toLocaleString('es-MX',{month:'short'})+' '+String(d.getFullYear()).slice(2);
-const al=i===0?a1:a2;
-const evM=DATA.proyeccion.eventos.filter(e=>e.mes===i).reduce((s,e)=>s+e.monto,0);
-const ing=al*cuota+ventas+evM,gas=renta+cop,gan=ing-gas;
-revAcum+=rev;const fin=gan-rev;totFin+=fin;saldoCop-=cop;
-rows+=`<tr><td>${label}</td><td>${al}</td><td>${money(ing)}</td><td>${money(gas)}</td><td>${money(gan)}</td><td>${money(revAcum)}</td><td style="color:var(--verde)">${money(fin)}</td><td>${money(Math.max(0,saldoCop))}</td></tr>`;}
-document.getElementById('proy-tabla').innerHTML=`<div class="card"><table class="tp"><tr><th>Mes</th><th>Alum</th><th>Ingresos</th><th>Gastos</th><th>Ganancia</th><th>Rev.acum</th><th>Sandy 💜</th><th>Coppel</th></tr>${rows}</table><div class="resumen-grid"><div class="resumen-item"><div class="resumen-valor" style="color:var(--verde)">${money(totFin)}</div><div class="resumen-label">Total Sandy (${meses} meses)</div></div><div class="resumen-item"><div class="resumen-valor" style="color:var(--am)">${money(revAcum)}</div><div class="resumen-label">💫 Revolvente → ${destino}</div></div></div></div>`;
-document.getElementById('lista-eventos').innerHTML=DATA.proyeccion.eventos.map((e,i)=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">💥 ${e.concepto}</div><div class="lista-item-detalle">Mes ${e.mes+1} · ${money(e.monto)}</div></div><button class="btn btn-rojo btn-chico" onclick="borrarEvento(${i})">🗑️</button></div>`).join('');}
-function modalEvento(){abrirModal(`<h3>💥 Evento único</h3><label>Mes (1-${document.getElementById('proy-meses').value}):</label><input type="number" id="m-em" value="1" min="1"><label>Concepto:</label><input type="text" id="m-ec" placeholder="Venta auto"><label>Monto (+$):</label><input type="number" id="m-ev" placeholder="18000"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarEvento()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarEvento(){const m=parseInt(document.getElementById('m-em').value)-1;const c=document.getElementById('m-ec').value.trim();const v=parseFloat(document.getElementById('m-ev').value);if(!c||!v){mostrarToast('⚠️ Completá datos');return;}DATA.proyeccion.eventos.push({mes:m,concepto:c,monto:v});guardarDatos();cerrarModal();renderProy();mostrarToast('💥 Evento agregado');}
-function borrarEvento(i){DATA.proyeccion.eventos.splice(i,1);guardarDatos();renderProy();}
-
-// ═══ SYNC ═══
-function exportarDatos(){DATA.config.ultimaExportacion=hoyISO();guardarDatos();const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sansao-backup-'+hoyISO()+'.json';a.click();renderSync();sonarDing();mostrarToast('📤 Exportado. Mandalo por WhatsApp');}
-function importarDatos(){const f=document.getElementById('import-file').files[0];if(!f){mostrarToast('⚠️ Seleccioná un archivo .json');return;}const r=new FileReader();r.onload=function(e){try{const imp=JSON.parse(e.target.result);let n=0;
-['alumnas','cobrosAlumnas','productos','ventas','metasGym','pagosMetas','inversiones','recuperaciones','gastosCasa','recursos'].forEach(k=>{(imp[k]||[]).forEach(it=>{if(!DATA[k].find(x=>x.id===it.id)){DATA[k].push(it);n++;}});});
-((imp.coppel||{}).abonos||[]).forEach(a=>{if(!DATA.coppel.abonos.find(x=>x.id===a.id)){DATA.coppel.abonos.push(a);n++;}});
-if(imp.deudaSandy){(imp.deudaSandy.prestamos||[]).forEach(p=>{if(!DATA.deudaSandy.prestamos.find(x=>x.id===p.id)){DATA.deudaSandy.prestamos.push(p);n++;}});(imp.deudaSandy.abonos||[]).forEach(a=>{if(!DATA.deudaSandy.abonos.find(x=>x.id===a.id)){DATA.deudaSandy.abonos.push(a);n++;}});}
-DATA.config.ultimoImport=hoyISO();guardarDatos();renderSync();renderHome();sonarDing();vibrar();mostrarToast('📥 Fusionado: +'+n+' registros');}catch(err){mostrarToast('⚠️ Archivo inválido');}};r.readAsText(f);}
-
-// ═══ REPORTE ═══
-function generarReporte(){const desde=document.getElementById('rep-desde').value||hoyISO().substring(0,8)+'01';const hasta=document.getElementById('rep-hasta').value||hoyISO();const enR=x=>x.fecha>=desde&&x.fecha<=hasta;
-const cobros=DATA.cobrosAlumnas.filter(enR).reduce((s,c)=>s+c.monto,0);
-const ventasT=DATA.ventas.filter(enR).reduce((s,v)=>s+v.montoTotal,0);
-const metasP=DATA.pagosMetas.filter(enR).reduce((s,p)=>s+p.monto,0);
-const copA=DATA.coppel.abonos.filter(enR).reduce((s,a)=>s+a.monto,0);
-const casaG=DATA.gastosCasa.filter(enR);const casaT=casaG.reduce((s,g)=>s+g.monto,0);
-const ingG=cobros+ventasT,ganG=ingG-metasP-copA;
-let t='🎸 CONTROL SANSAO · REPORTE\n📅 '+fFecha(desde)+' → '+fFecha(hasta)+'\n━━━━━━━━━━━━━━━━━━\n\n🩰 GYM LA FEMME\nIngresos alumnas: '+money(cobros)+'\nVentas productos: '+money(ventasT)+'\nTOTAL INGRESOS: '+money(ingG)+'\nGastos/Metas: -'+money(metasP)+'\nAbono Coppel: -'+money(copA)+'\nRESULTADO GYM: '+money(ganG)+'\n\n🏡 CASA\n';
-casaG.forEach(g=>{t+='  · '+g.categoria+' ('+g.quienPago+'): '+money(g.monto)+'\n';});
-t+='TOTAL CASA: '+money(casaT)+'\n\n━━━━━━━━━━━━━━━━━━\n💳 SALDOS\nCoppel restante: '+money(DATA.coppel.totalAPagar-DATA.coppel.abonos.reduce((s,a)=>s+a.monto,0))+'\nDeuda Sandy: '+money(DATA.deudaSandy.prestamos.reduce((s,p)=>s+p.monto,0)-DATA.deudaSandy.abonos.reduce((s,a)=>s+a.monto,0))+'\n\nHecho con amor y ROCK 🎸';
-document.getElementById('reporte-texto').textContent=t;document.getElementById('reporte-resultado').style.display='block';mostrarToast('📊 Reporte generado');}
-function copiarReporte(){const t=document.getElementById('reporte-texto').textContent;const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);mostrarToast('📲 Copiado. Pegalo en WhatsApp');}
-function imprimirReporte(){const t=document.getElementById('reporte-texto').textContent;const w=window.open('','_blank');w.document.write('<html><head><title>Reporte SanSao</title><style>body{font-family:monospace;white-space:pre-wrap;padding:24px}</style></head><body>'+t.replace(/</g,'&lt;')+'</body></html>');w.document.close();w.print();}
-
-// ═══ ARRANQUE ═══
-cargarDatos();
-renderHome();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
-</script>
-</body>
-</html>
+// ═══════════ AQUÍ PEGÁS LA PARTE 2 ═══════════
