@@ -99,7 +99,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <button class="btn btn-principal" onclick="irA('gym')">🩰 Ir al GYM</button>
 <button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="irA('casa')">🏡 Ir a CASA</button>
 </div>
-<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
+<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1.1 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
 </div>
 
 <!-- ═══ GYM ═══ -->
@@ -172,7 +172,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <label>Fecha:</label><input type="date" id="casa-fecha">
 <label>Categoría:</label>
 <select id="casa-categoria" onchange="casaOtroToggle()">
-<option>Renta</option><option>Servicios</option><option>Internet</option><option>Súper</option><option>Esparcimiento</option><option>Gustitos</option><option>Baghira 🐱‍⬛</option><option>Viáticos</option><option>Recargas</option><option>Otro</option>
+<option>Renta</option><option>Servicios</option><option>Internet</option><option>Súper</option><option>Esparcimiento</option><option>Gustitos</option><option>Baghira 🐱‍</option><option>Viáticos</option><option>Recargas</option><option>Otro</option>
 </select>
 <div id="casa-otro-wrap" style="display:none"><label>Descripción:</label><input type="text" id="casa-otro-desc" placeholder="¿Qué es?"></div>
 <label>Monto ($):</label><input type="number" id="casa-monto" placeholder="0" min="0">
@@ -241,7 +241,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <div id="proy-tabla"></div>
 </div>
 
-<!-- ═══ SYNC ═══ -->
+<!-- ═══ SYNC ══ -->
 <div class="pantalla" id="pantalla-sync">
 <h1>🔄 Sincronización</h1>
 <p class="chico">Exportá y mandá por WhatsApp. Importá y fusioná.</p>
@@ -306,7 +306,7 @@ recursos:[
 {id:'r5',nombre:'Micrófonos',valor:6500,estado:'En uso',nota:''},
 {id:'r6',nombre:'Mezcladoras audio',valor:12000,estado:'En uso',nota:''}],
 proyeccion:{},
-config:{nombreApp:'Control SanSao',version:1,ultimaExportacion:null,ultimoImport:null}};}
+config:{nombreApp:'Control SanSao',version:1.1,ultimaExportacion:null,ultimoImport:null}};}
 function cargarDatos(){try{const r=localStorage.getItem(CLAVE);if(r){DATA=JSON.parse(r);}else{DATA=datosIniciales();guardarDatos();}}catch(e){DATA=datosIniciales();}}
 function guardarDatos(){localStorage.setItem(CLAVE,JSON.stringify(DATA));}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
@@ -350,13 +350,17 @@ function renderGym(){renderAlumnas();renderCobros();renderProductos();renderVent
 function renderAlumnas(){const el=document.getElementById('lista-alumnas');
 if(!DATA.alumnas.length){el.innerHTML='<div class="vacio">Sin alumnas. ¡Agregá la primera! 💪</div>';return;}
 el.innerHTML=DATA.alumnas.map(a=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${a.nombre} ${a.activa?'🟢':''}</div><div class="lista-item-detalle">${money(a.montoMensual)}/mes · Alta: ${fFecha(a.fechaAlta)}</div></div><div style="display:flex;gap:5px"><button class="btn btn-verde btn-chico" onclick="cobrarAlumna('${a.id}')">💰</button><button class="btn btn-secundario btn-chico" onclick="toggleAlumna('${a.id}')">${a.activa?'⏸️':'▶️'}</button><button class="btn btn-rojo btn-chico" onclick="borrarAlumna('${a.id}')">🗑️</button></div></div>`).join('');}
+function renderCobros(){const el=document.getElementById('lista-cobros');const c=[...DATA.cobrosAlumnas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,15);
+if(!c.length){el.innerHTML='<div class="vacio">Sin cobros aún</div>';return;}
+el.innerHTML=c.map(x=>{const a=DATA.alumnas.find(q=>q.id===x.alumnaId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${a?a.nombre:'Alumna'} · ${x.periodo||''}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--verde)">${money(x.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarCobro('${x.id}')">🗑️</button></div></div>`;}).join('');}
 function renderProductos(){const el=document.getElementById('lista-productos');const sel=document.getElementById('venta-producto');
 if(!DATA.productos.length){el.innerHTML='<div class="vacio">Sin productos</div>';sel.innerHTML='<option value="">—</option>';return;}
 el.innerHTML=DATA.productos.map(p=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p.nombre}</div><div class="lista-item-detalle">${money(p.precio)}</div></div><button class="btn btn-rojo btn-chico" onclick="borrarProducto('${p.id}')">🗑️</button></div>`).join('');
 sel.innerHTML=DATA.productos.map(p=>`<option value="${p.id}">${p.nombre} - ${money(p.precio)}</option>`).join('');}
 function renderVentas(){const el=document.getElementById('lista-ventas');const v=[...DATA.ventas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,20);
 if(!v.length){el.innerHTML='<div class="vacio">Sin ventas</div>';return;}
-el.innerHTML=v.map(x=>{const p=DATA.productos.find(q=>q.id===x.productoId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p?p.nombre:'Producto'} x${x.cantidad}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div class="lista-item-monto" style="color:var(--verde)">${money(x.montoTotal)}</div><button class="btn btn-rojo btn-chico" onclick="borrarVenta('${x.id}')">🗑️</button></div>
+el.innerHTML=v.map(x=>{const p=DATA.productos.find(q=>q.id===x.productoId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p?p.nombre:'Producto'} x${x.cantidad}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--verde)">${money(x.montoTotal)}</div><button class="btn btn-rojo btn-chico" onclick="borrarVenta('${x.id}')">🗑️</button></div></div>`;}).join('');}
+function renderMetas(){const el=document.getElementById('lista-metas');const mes=hoyISO().substring(0,7);
 if(!DATA.metasGym.length){el.innerHTML='<div class="vacio">Sin metas configuradas</div>';return;}
 el.innerHTML=DATA.metasGym.map(m=>{const pag=DATA.pagosMetas.filter(p=>p.metaId===m.id&&p.fecha.startsWith(mes)).reduce((s,p)=>s+p.monto,0);const pct=Math.min(100,pag/m.montoMensual*100);const col=pct>=100?'barra-verde':pct>=50?'barra-amarilla':'barra-roja';
 return `<div class="card"><div style="display:flex;justify-content:space-between"><b>${m.concepto}</b><span class="chico">${money(pag)} / ${money(m.montoMensual)}</span></div><div class="barra-progreso"><div class="barra-fill ${col}" style="width:${pct}%"></div></div><div style="display:flex;gap:6px;margin-top:6px"><button class="btn btn-verde btn-chico" onclick="pagarMeta('${m.id}')">💰 Pagar</button><button class="btn btn-rojo btn-chico" onclick="borrarMeta('${m.id}')">🗑️</button></div></div>`;}).join('');}
@@ -404,6 +408,8 @@ function toggleAlumna(id){const a=DATA.alumnas.find(x=>x.id===id);if(a){a.activa
 function borrarAlumna(id){if(confirm('¿Borrar esta alumna?')){DATA.alumnas=DATA.alumnas.filter(x=>x.id!==id);guardarDatos();renderAlumnas();renderHome();mostrarToast('🗑️ Alumna borrada');}}
 function cobrarAlumna(id){const a=DATA.alumnas.find(x=>x.id===id);if(!a)return;abrirModal(`<h3>💰 Cobrar a ${a.nombre}</h3><label>Monto:</label><input type="number" id="m-cm" value="${a.montoMensual}"><label>Periodo:</label><input type="text" id="m-cp" value="${new Date().toLocaleString('es-MX',{month:'long',year:'numeric'})}"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarCobro('${id}')">💾 Registrar cobro</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
 function guardarCobro(id){const m=parseFloat(document.getElementById('m-cm').value);const p=document.getElementById('m-cp').value;if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.cobrosAlumnas.push({id:uid(),alumnaId:id,fecha:hoyISO(),monto:m,periodo:p});guardarDatos();cerrarModal();renderGym();renderHome();sonarDing();vibrar();mostrarToast('✅ Cobro registrado');}
+function borrarCobro(id){if(confirm('¿Borrar este cobro?')){DATA.cobrosAlumnas=DATA.cobrosAlumnas.filter(x=>x.id!==id);guardarDatos();renderCobros();renderHome();mostrarToast('🗑️ Cobro borrado');}}
+function borrarVenta(id){if(confirm('¿Borrar esta venta?')){DATA.ventas=DATA.ventas.filter(x=>x.id!==id);guardarDatos();renderVentas();renderHome();mostrarToast('🗑️ Venta borrada');}}
 function modalProducto(){abrirModal(`<h3>➕ Nuevo producto</h3><label>Nombre:</label><input type="text" id="m-pn" placeholder="Agua, Suplemento..."><label>Precio ($):</label><input type="number" id="m-pp" placeholder="15"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarProducto()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
 function guardarProducto(){const n=document.getElementById('m-pn').value.trim();const p=parseFloat(document.getElementById('m-pp').value);if(!n||!p){mostrarToast('⚠️ Completá datos');return;}DATA.productos.push({id:uid(),nombre:n,precio:p});guardarDatos();cerrarModal();renderProductos();mostrarToast('✅ Producto agregado');}
 function borrarProducto(id){if(confirm('¿Borrar producto?')){DATA.productos=DATA.productos.filter(x=>x.id!==id);guardarDatos();renderProductos();}}
@@ -422,13 +428,6 @@ function modalRecuperacion(){if(!DATA.inversiones.length){mostrarToast('⚠️ P
 function guardarRecuperacion(){const m=parseFloat(document.getElementById('m-rm').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}DATA.recuperaciones.push({id:uid(),inversionId:document.getElementById('m-ri').value,fecha:hoyISO(),monto:m});guardarDatos();cerrarModal();renderInversiones();sonarDing();mostrarToast('✅ Recuperación registrada');}
 function guardarConfigRec(){DATA.configRecuperacion.modo=document.getElementById('rec-modo').value;DATA.configRecuperacion.porcentaje=parseFloat(document.getElementById('rec-porcentaje').value)||30;guardarDatos();renderInversiones();}
 
-// ═══ BORRAR COBROS/VENTAS (v1.1) ═══
-function renderCobros(){const el=document.getElementById('lista-cobros');const c=[...DATA.cobrosAlumnas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,15);
-if(!c.length){el.innerHTML='<div class="vacio">Sin cobros aún</div>';return;}
-el.innerHTML=c.map(x=>{const a=DATA.alumnas.find(q=>q.id===x.alumnaId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${a?a.nombre:'Alumna'} · ${x.periodo||''}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--verde)">${money(x.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarCobro('${x.id}')">🗑️</button></div></div>`;}).join('');}
-function borrarCobro(id){if(confirm('¿Borrar este cobro?')){DATA.cobrosAlumnas=DATA.cobrosAlumnas.filter(x=>x.id!==id);guardarDatos();renderCobros();renderHome();mostrarToast('🗑️ Cobro borrado');}}
-function borrarVenta(id){if(confirm('¿Borrar esta venta?')){DATA.ventas=DATA.ventas.filter(x=>x.id!==id);guardarDatos();renderVentas();renderHome();mostrarToast('🗑️ Venta borrada');}}
-                        
 // ═══ ACCIONES CASA ═══
 function guardarGastoCasa(){const f=document.getElementById('casa-fecha').value||hoyISO();const cat=document.getElementById('casa-categoria').value;const m=parseFloat(document.getElementById('casa-monto').value);if(!m){mostrarToast('⚠️ Ingresá un monto');return;}const conc=cat==='Otro'?(document.getElementById('casa-otro-desc').value||'Otro'):cat;DATA.gastosCasa.push({id:uid(),fecha:f,categoria:cat,concepto:conc,monto:m,quienPago:document.getElementById('casa-quien').value,nota:document.getElementById('casa-nota').value});guardarDatos();renderCasa();renderHome();sonarDing();vibrar();mostrarToast('✅ Gasto guardado');document.getElementById('casa-monto').value='';document.getElementById('casa-nota').value='';}
 function borrarGastoCasa(id){if(confirm('¿Borrar gasto?')){DATA.gastosCasa=DATA.gastosCasa.filter(x=>x.id!==id);guardarDatos();renderCasa();renderHome();mostrarToast('🗑️ Gasto borrado');}}
