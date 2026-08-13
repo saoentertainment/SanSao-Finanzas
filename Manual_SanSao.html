@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 Manual · Control SanSao</title>
+<style>
+:root{--bg:#1a1025;--card:#2d1b3d;--mag:#e91e8c;--rosa:#f8bbd0;--verde:#66bb6a;--am:#ffca28;--rojo:#ef5350;--gris:#b0bec5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#fff;padding:20px;line-height:1.7}
+.cont{max-width:860px;margin:0 auto}
+header{background:linear-gradient(135deg,var(--mag),#6a1b9a);border-radius:16px;padding:26px 20px;text-align:center;margin-bottom:24px}
+header h1{font-size:1.5em}
+header p{color:rgba(255,255,255,.85);font-size:.95em;margin-top:6px}
+h2{color:var(--rosa);margin:30px 0 10px;font-size:1.2em;border-bottom:2px solid rgba(233,30,140,.25);padding-bottom:6px}
+h3{color:var(--mag);margin:16px 0 6px;font-size:1.05em}
+.card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9em}
+th{background:rgba(233,30,140,.15);color:var(--rosa);text-align:left}
+th,td{padding:8px 10px;border:1px solid rgba(233,30,140,.2);vertical-align:top}
+code{background:rgba(0,0,0,.4);color:var(--am);padding:2px 6px;border-radius:4px;font-size:.9em}
+ul{padding-left:22px;margin:8px 0}
+li{margin:4px 0}
+.nota{color:var(--gris);font-size:.88em}
+.paso{background:var(--card);border-left:4px solid var(--mag);border-radius:8px;padding:10px 14px;margin:8px 0}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.8em;font-weight:bold}
+.b-verde{background:rgba(102,187,106,.2);color:var(--verde);border:1px solid var(--verde)}
+.b-am{background:rgba(255,202,40,.2);color:var(--am);border:1px solid var(--am)}
+.b-rojo{background:rgba(239,83,80,.2);color:var(--rojo);border:1px solid var(--rojo)}
+footer{text-align:center;color:var(--gris);margin-top:40px;padding:20px;font-size:.9em;border-top:1px solid rgba(233,30,140,.2)}
+</style>
+</head>
+<body>
+<div class="cont">
+
+<header>
+<h1>🎸 Control SanSao · Manual de Uso</h1>
+<p>La Femme 💪 + Casa SanSao 🏡 · Para Sandy y SAO · v1.2</p>
+</header>
+
+<h2>💜 ¿Qué es esto?</h2>
+<div class="card">
+<p>Es su sistema de administración familiar y del gym. Sirve para:</p>
+<ul>
+<li>🩰 Llevar el control del <b>GYM La Femme</b>: alumnas, cobros, ventas, gastos, metas, el préstamo Coppel y las inversiones.</li>
+<li>🏡 Llevar los <b>gastos de CASA</b>: quién pagó qué, en qué categoría.</li>
+<li>💰 Armar <b>presupuestos por sobres</b>: comida semanal, gustitos, lo que sea.</li>
+<li>💳 Ver las <b>deudas</b> claras: Coppel y préstamos internos, sin pena y sin reclamos.</li>
+<li>📦 Saber qué <b>recursos</b> tienen de respaldo.</li>
+<li>📈 <b>Simular el futuro</b>: ¿qué pasa si consigo 30 alumnas? ¿y si vendo el auto?</li>
+<li>📄 Generar <b>reportes</b> para copiar a WhatsApp o imprimir.</li>
+</ul>
+</div>
+
+<h2>⚠️ La regla de oro (leer primero)</h2>
+<div class="card">
+<p><b>Los datos viven en CADA dispositivo.</b> 📱💻</p>
+<ul>
+<li>Lo que Sandy registra en <b>su cel</b>, NO aparece solo en el cel de SAO.</li>
+<li>Por eso existe <b>🔄 Sync</b>: una vez por semana se exporta un archivo y se importa en el otro cel. Así se fusiona todo.</li>
+<li>Si abrís la app en un cel nuevo y la ves vacía: <b>es normal</b>, no se rompió nada.</li>
+<li>🚨 Antes de borrar datos del navegador o cambiar de cel: <b>EXPORTÁ primero</b>.</li>
+</ul>
+</div>
+
+<h2>🧭 Menú v1.2 · Barra fija + botón flotante</h2>
+<div class="card">
+<ul>
+<li><b>Barra fija (5 botones grandes):</b> 🏠 Home · 🩰 GYM · 🏡 Casa · 💰 Presup · 💳 Deudas — lo que se usa a diario.</li>
+<li><b>Botón flotante 🎸:</b> abre el panel con 📦 Recursos · 📈 Proyección · 🔄 Sync · 📄 Reporte.</li>
+<li>El panel se cierra solo al elegir una opción o tocando el 🎸 de nuevo.</li>
+</ul>
+</div>
+
+<h2>🏠 HOME · El panel de un vistazo</h2>
+<div class="card">
+<table>
+<tr><th>Cuadro</th><th>Qué muestra</th></tr>
+<tr><td>GASTOS CASA (mes)</td><td>Todo lo gastado en casa este mes</td></tr>
+<tr><td>GYM Ingresos (mes)</td><td>Cobros de alumnas + ventas de productos del mes</td></tr>
+<tr><td>GYM Gastos (mes)</td><td>Pagos de metas + abonos Coppel del mes</td></tr>
+<tr><td>Coppel restante</td><td>Lo que falta por pagar del préstamo</td></tr>
+<tr><td>Deuda Sandy</td><td>Saldo pendiente de préstamos internos</td></tr>
+<tr><td>Alumnas activas</td><td>Cuántas alumnas 🟢 hay hoy</td></tr>
+</table>
+</div>
+
+<h2>🩰 GYM · Sección por sección</h2>
+<h3>👩‍🎓 Alumnas</h3>
+<div class="card">
+<ul>
+<li><b>➕ Nueva Alumna:</b> nombre + mensualidad. Queda activa 🟢.</li>
+<li><b>💰:</b> registrar un cobro (ya viene con su mensualidad sugerida).</li>
+<li><b>⏸️ / ▶️:</b> pausar o reactivar.</li>
+<li><b>🗑️:</b> borrar (pide confirmación).</li>
+<li>Abajo, en <b>Cobros recientes</b>, ves los últimos cobros y podés borrar el que cargaste mal.</li>
+</ul>
+</div>
+<h3>🛒 Ventas</h3>
+<div class="card">
+<ul>
+<li><b>➕ Agregar producto:</b> arma el catálogo (agua, suplementos, lo que sea).</li>
+<li><b>Registrar venta:</b> elegís producto + cantidad → suma solo.</li>
+<li>Cada venta tiene 🗑️ por si te equivocás.</li>
+</ul>
+</div>
+<h3>🎯 Metas (gastos fijos del gym)</h3>
+<div class="card">
+<ul>
+<li><b>➕ Nueva meta:</b> ej. "Renta $8,000", "Luz $800".</li>
+<li><b>💰 Pagar:</b> registrás pagos parciales o completos. La barrita se llena: <span class="badge b-rojo">rojo</span> → <span class="badge b-am">amarillo</span> → <span class="badge b-verde">verde</span> = cumplida.</li>
+</ul>
+</div>
+<h3>🏦 Coppel</h3>
+<div class="card">
+<ul>
+<li>Muestra el préstamo: $16,000 solicitados · total a pagar $24,714.68 · $2,072/mes.</li>
+<li><b>➕ Registrar abono:</b> ya viene con $2,072 sugerido; si pagás de más, poné el monto real.</li>
+</ul>
+</div>
+<h3>📦 Inversión</h3>
+<div class="card">
+<ul>
+<li><b>➕ Nueva inversión:</b> cuando SAO o Sandy meten plata a aparatos/productos. El gym "la debe" hasta recuperarla.</li>
+<li><b>➕ Registrar recuperación:</b> cuando el gym devuelve parte de esa inversión.</li>
+<li><b>Modo de recuperación:</b> automático (% de ganancia) o manual.</li>
+</ul>
+</div>
+
+<h2>🏡 CASA · Gastos del hogar</h2>
+<div class="card">
+<ul>
+<li>Elegí fecha, categoría (Renta, Súper, Gustitos, Baghira 🐱‍⬛, etc.), monto y <b>quién pagó</b> (Sandy / SAO / Ambos).</li>
+<li>Si es algo fuera de lista: categoría <b>Otro</b> + descripción.</li>
+<li>Abajo queda el historial con 🗑️ por si hay errores.</li>
+</ul>
+</div>
+
+<h2>💰 PRESUPUESTOS · El método de los sobres</h2>
+<div class="card">
+<ul>
+<li><b>➕ Nuevo sobre:</b> nombre + monto ("Comida semanal" $1,000).</li>
+<li><b>➕ Gasto:</b> descripción manual + monto + fecha. Se descuenta del sobre.</li>
+<li>Cada sobre muestra: <b>gastado hoy</b>, total gastado, cuánto queda y barra 🟢🟡🔴.</li>
+<li>Si se pasa del monto: badge <b>⚠️ PASADO</b> (informativo, sin drama).</li>
+<li>🗑️ en sobres y gastos, siempre con confirmación.</li>
+</ul>
+</div>
+
+<h2>💳 DEUDAS · Transparencia sin pena</h2>
+<div class="card">
+<ul>
+<li><b>🐱 Sandy:</b> saldo grande arriba. <b>➕ Préstamo</b> cuando se pide plata · <b>💚 Abono</b> cuando se devuelve. Son números, no reclamos.</li>
+<li><b>🏦 Coppel:</b> muestra el saldo (los abonos se cargan en GYM → Coppel).</li>
+</ul>
+</div>
+
+<h2>📦 RECURSOS · El colchón familiar</h2>
+<div class="card">
+<ul>
+<li>Lista de cosas vendibles: auto, mezcladoras, mics, bicis, etc.</li>
+<li><b>🔄:</b> cambia el estado: Disponible → En uso → Vendido.</li>
+<li>Arriba se ve el <b>total disponible</b>: "si todo se vende, tenemos $X de respaldo". 🛟</li>
+</ul>
+</div>
+
+<h2>📈 PROYECCIÓN · La bola de cristal 🔮</h2>
+<div class="card">
+<ul>
+<li>Es un <b>simulador</b>: NO toca los datos reales. Podés jugar sin miedo.</li>
+<li>Mové los números (alumnas, cuota, renta...) y la tabla se recalcula al instante.</li>
+<li><b>💥 Evento único:</b> ej. "Venta auto +$18,000 en el mes 3".</li>
+<li>La columna <b>Sandy 💜</b> muestra la ganancia final que le queda a ella cada mes.</li>
+<li>El <b>💫 Revolvente</b> es lo que se destina a deuda/capital/colchón antes del reparto.</li>
+</ul>
+</div>
+
+<h2>🔄 SYNC · El apretón de manos semanal</h2>
+<div class="card">
+<div class="paso"><b>1.</b> Sandy vive su semana registrando GYM + sus gastos de CASA en su cel.</div>
+<div class="paso"><b>2.</b> SAO registra sus gastos de CASA en su cel.</div>
+<div class="paso"><b>3.</b> El domingo: Sandy toca <b>📤 Exportar</b> → se descarga <code>sansao-backup-fecha.json</code> → lo manda por WhatsApp.</div>
+<div class="paso"><b>4.</b> SAO lo descarga, entra a Sync, toca <b>📥 Importar</b> → todo se fusiona sin duplicados.</div>
+<div class="paso"><b>5.</b> (Opcional) SAO exporta el resultado y se lo manda a Sandy.</div>
+</div>
+
+<h2>📄 REPORTE · Para cerrar el mes</h2>
+<div class="card">
+<ul>
+<li>Elegí desde/hasta → <b>📊 Generar</b>.</li>
+<li><b>📲 Copiar:</b> lo pega tal cual en WhatsApp.</li>
+<li><b>🖨️ PDF/Imprimir:</b> abre versión limpia para guardar como PDF.</li>
+</ul>
+</div>
+
+<h2>🧰 Botonario universal</h2>
+<div class="card">
+<table>
+<tr><th>Botón</th><th>Qué hace</th></tr>
+<tr><td>➕</td><td>Agregar algo nuevo</td></tr>
+<tr><td>💰 / 💚</td><td>Registrar cobro / abono / pago</td></tr>
+<tr><td>🗑️</td><td>Borrar (SIEMPRE pide confirmación antes)</td></tr>
+<tr><td>🔄</td><td>Cambiar estado</td></tr>
+<tr><td>⏸️ / ▶️</td><td>Pausar / reactivar alumna</td></tr>
+</table>
+<p class="nota">Todo lo que guardás suena "ding" 🔔 y vibra 📳 para que sientas que quedó.</p>
+</div>
+
+<h2>💡 Tips rápidos</h2>
+<div class="card">
+<ul>
+<li>¿La app se ve "vieja" después de un cambio? Agregá <code>?v=2</code> al final de la URL.</li>
+<li>Registrá las cosas <b>el mismo día</b>: la memoria es traicionera.</li>
+<li>El simulador 📈 es para decidir; los datos reales son para registrar. No se mezclan.</li>
+<li>Exportá un respaldo al menos 1 vez por semana. 🛟</li>
+</ul>
+</div>
+
+<footer>
+🎸 Control SanSao · Sandy & SAO<br>
+Hecho con amor y ROCK 🎸🤘<br>
+<span class="nota">Manual técnico v1.2 · Agosto 2026</span>
+</footer>
+
+</div>
+</body>
+</html>
