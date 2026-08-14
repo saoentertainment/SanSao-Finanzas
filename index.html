@@ -80,6 +80,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 .menu-flotante.visible{display:block;animation:fadeIn .2s}
 .menu-flotante button{display:block;width:100%;background:none;border:none;color:var(--bl);padding:12px 14px;font-size:14px;text-align:left;border-radius:8px;cursor:pointer}
 .menu-flotante button:active{background:rgba(233,30,140,.2)}
+.menu-flotante a{display:block;padding:12px 14px;font-size:14px;color:var(--bl);text-decoration:none}
 @media print{body{background:#fff;color:#000}.nav-inferior,.btn,.fab,.menu-flotante,.no-print{display:none!important}.pantalla{display:block!important}.card{border:1px solid #ccc}}
 </style>
 </head>
@@ -109,16 +110,16 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <button class="btn btn-principal" onclick="irA('gym')">🩰 Ir al GYM</button>
 <button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="irA('casa')">🏡 Ir a CASA</button>
 <button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="irA('presup')">💰 Ir a PRESUPUESTOS</button>
-<a href="Manual_Sandy.html" target="_blank" style="display:block;width:100%;margin-top:8px;text-align:center;padding:12px 18px;border-radius:10px;background:rgba(248,187,208,.12);color:var(--rosa);border:1px solid var(--rosa);font-weight:600;font-size:14px;text-decoration:none">💌 Manual para Sandy</a>  
+<a href="Manual_Sandy.html" target="_blank" style="display:block;width:100%;margin-top:8px;text-align:center;padding:12px 18px;border-radius:10px;background:rgba(248,187,208,.12);color:var(--rosa);border:1px solid var(--rosa);font-weight:600;font-size:14px;text-decoration:none">💌 Manual para Sandy</a>
 </div>
-<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1.2 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
+<div style="text-align:center;margin-top:28px" class="chico">Control SanSao v1.3 · Sandy & SAO 💜<br>Hecho con amor y ROCK 🎸🤘</div>
 </div>
 
 <!-- ═══ GYM ═══ -->
 <div class="pantalla" id="pantalla-gym">
 <h1>🩰 GYM La Femme</h1>
 <div class="tabs" id="gym-tabs">
-<button class="tab-btn activa" onclick="gymTab('alumnas',this)">👩‍🎓 Alumnas</button>
+<button class="tab-btn activa" onclick="gymTab('alumnas',this)">👩‍ Alumnas</button>
 <button class="tab-btn" onclick="gymTab('ventas',this)">🛒 Ventas</button>
 <button class="tab-btn" onclick="gymTab('metas',this)">🎯 Metas</button>
 <button class="tab-btn" onclick="gymTab('coppel',this)">🏦 Coppel</button>
@@ -131,6 +132,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <div id="lista-cobros"></div>
 </div>
 <div id="gym-ventas" style="display:none">
+<div id="ventas-panel"></div>
 <h3>Catálogo de productos</h3>
 <button class="btn btn-secundario btn-chico" onclick="modalProducto()">➕ Agregar producto</button>
 <div id="lista-productos"></div>
@@ -261,7 +263,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <div id="proy-tabla"></div>
 </div>
 
-<!-- ═══ SYNC ══ -->
+<!-- ═══ SYNC ═══ -->
 <div class="pantalla" id="pantalla-sync">
 <h1>🔄 Sincronización</h1>
 <p class="chico">Exporta y manda por WhatsApp. Importa y fusiona.</p>
@@ -298,7 +300,7 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 
 <div class="modal-overlay" id="modal-overlay"><div class="modal" id="modal-contenido"></div></div>
 
-<!-- ═══ MENÚ v1.2 ═══ -->
+<!-- ═══ MENÚ ═══ -->
 <nav class="nav-inferior">
 <button class="nav-btn activo" data-p="home" onclick="irA('home')"><span>🏠</span>Home</button>
 <button class="nav-btn" data-p="gym" onclick="irA('gym')"><span>🩰</span>GYM</button>
@@ -312,8 +314,8 @@ table.tp{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
 <button onclick="irA('proy')">📈 Proyección</button>
 <button onclick="irA('sync')">🔄 Sync</button>
 <button onclick="irA('reporte')">📄 Reporte</button>
-<a href="Manual_Sandy.html" target="_blank" style="display:block;padding:12px 14px;font-size:14px;color:var(--bl);text-decoration:none">💌 Manual Sandy</a>
-<a href="Manual_SanSao.html" target="_blank" style="display:block;padding:12px 14px;font-size:14px;color:var(--bl);text-decoration:none">📖 Manual técnico</a>  
+<a href="Manual_Sandy.html" target="_blank">💌 Manual Sandy</a>
+<a href="Manual_SanSao.html" target="_blank">📖 Manual técnico</a>
 </div>
 
 <script>
@@ -334,7 +336,7 @@ recursos:[
 {id:'r5',nombre:'Micrófonos',valor:6500,estado:'En uso',nota:''},
 {id:'r6',nombre:'Mezcladoras audio',valor:12000,estado:'En uso',nota:''}],
 proyeccion:{},
-config:{nombreApp:'Control SanSao',version:1.2,ultimaExportacion:null,ultimoImport:null}};}
+config:{nombreApp:'Control SanSao',version:1.3,ultimaExportacion:null,ultimoImport:null}};}
 function cargarDatos(){try{const r=localStorage.getItem(CLAVE);if(r){DATA=JSON.parse(r);}else{DATA=datosIniciales();guardarDatos();}}catch(e){DATA=datosIniciales();}
 DATA.sobres=DATA.sobres||[];DATA.gastosSobre=DATA.gastosSobre||[];}
 function guardarDatos(){localStorage.setItem(CLAVE,JSON.stringify(DATA));}
@@ -385,9 +387,14 @@ if(!c.length){el.innerHTML='<div class="vacio">Sin cobros aún</div>';return;}
 el.innerHTML=c.map(x=>{const a=DATA.alumnas.find(q=>q.id===x.alumnaId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${a?a.nombre:'Alumna'} · ${x.periodo||''}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--verde)">${money(x.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarCobro('${x.id}')">🗑️</button></div></div>`;}).join('');}
 function renderProductos(){const el=document.getElementById('lista-productos');const sel=document.getElementById('venta-producto');
 if(!DATA.productos.length){el.innerHTML='<div class="vacio">Sin productos</div>';sel.innerHTML='<option value="">—</option>';return;}
-el.innerHTML=DATA.productos.map(p=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p.nombre}</div><div class="lista-item-detalle">${money(p.precio)}</div></div><button class="btn btn-rojo btn-chico" onclick="borrarProducto('${p.id}')">🗑️</button></div>`).join('');
+el.innerHTML=DATA.productos.map(p=>`<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p.nombre}</div><div class="lista-item-detalle">Costo ${money(p.costo||0)} → Venta ${money(p.precio)} · Margen ${money(p.precio-(p.costo||0))}</div></div><button class="btn btn-rojo btn-chico" onclick="borrarProducto('${p.id}')">🗑️</button></div>`).join('');
 sel.innerHTML=DATA.productos.map(p=>`<option value="${p.id}">${p.nombre} - ${money(p.precio)}</option>`).join('');}
-function renderVentas(){const el=document.getElementById('lista-ventas');const v=[...DATA.ventas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,20);
+function renderVentas(){const mes=hoyISO().substring(0,7);
+const vm=DATA.ventas.filter(v=>v.fecha.startsWith(mes));
+const vendido=vm.reduce((s,v)=>s+v.montoTotal,0);
+const costo=vm.reduce((s,v)=>{const p=DATA.productos.find(q=>q.id===v.productoId);return s+((p?p.costo||0:0)*v.cantidad);},0);
+document.getElementById('ventas-panel').innerHTML=`<div class="card card-destacada"><h3>📊 Ganancia de productos · este mes</h3><div class="chico">Vendido: ${money(vendido)} · Costo mercancía: −${money(costo)}</div><div style="font-size:1.8em;font-weight:700;color:var(--verde);text-align:center;padding:6px">${money(vendido-costo)}</div><button class="btn btn-secundario btn-chico" onclick="modalMandarGanancia()">📥 Mandar a sobre</button></div>`;
+const el=document.getElementById('lista-ventas');const v=[...DATA.ventas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,20);
 if(!v.length){el.innerHTML='<div class="vacio">Sin ventas</div>';return;}
 el.innerHTML=v.map(x=>{const p=DATA.productos.find(q=>q.id===x.productoId);return `<div class="lista-item"><div class="lista-item-info"><div class="lista-item-nombre">${p?p.nombre:'Producto'} x${x.cantidad}</div><div class="lista-item-detalle">${fFecha(x.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--verde)">${money(x.montoTotal)}</div><button class="btn btn-rojo btn-chico" onclick="borrarVenta('${x.id}')">🗑️</button></div></div>`;}).join('');}
 function renderMetas(){const el=document.getElementById('lista-metas');const mes=hoyISO().substring(0,7);
@@ -424,7 +431,7 @@ const queda=s.monto-gast;
 const pct=Math.min(100,gast/s.monto*100);
 const col=pct<50?'barra-verde':pct<80?'barra-amarilla':'barra-roja';
 const badge=gast>s.monto?'<span class="badge badge-rojo">⚠️ PASADO</span>':'<span class="badge badge-verde">Queda '+money(queda)+'</span>';
-return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>📥 ${s.nombre}</b>${badge}</div><div class="chico" style="margin:4px 0">Presupuesto: ${money(s.monto)} · Gastado hoy: ${money(hoy)}</div><div class="barra-progreso"><div class="barra-fill ${col}" style="width:${pct}%"></div></div><div class="chico">Gastado: ${money(gast)} · Queda: ${money(queda)}</div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-verde btn-chico" onclick="modalGastoSobre('${s.id}')">➕ Gasto</button><button class="btn btn-rojo btn-chico" onclick="borrarSobre('${s.id}')">🗑️</button></div><div>${gs.slice(-4).reverse().map(g=>`<div class="lista-item" style="margin:6px 0"><div class="lista-item-info"><div class="lista-item-nombre">${g.descripcion}</div><div class="lista-item-detalle">${fFecha(g.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--rojo)">${money(g.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarGastoSobre('${g.id}')">🗑️</button></div></div>`).join('')}</div></div>`;}).join('');}
+return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>📥 ${s.nombre}</b>${badge}</div><div class="chico" style="margin:4px 0">Presupuesto: ${money(s.monto)} · Gastado hoy: ${money(hoy)}</div><div class="barra-progreso"><div class="barra-fill ${col}" style="width:${pct}%"></div></div><div class="chico">Gastado: ${money(gast)} · Queda: ${money(queda)}</div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-verde btn-chico" onclick="modalGastoSobre('${s.id}')">➕ Gasto</button><button class="btn btn-azul btn-chico" onclick="modalDeposito('${s.id}')">📥 Depositar</button><button class="btn btn-rojo btn-chico" onclick="borrarSobre('${s.id}')">🗑️</button></div><div>${gs.slice(-4).reverse().map(g=>`<div class="lista-item" style="margin:6px 0"><div class="lista-item-info"><div class="lista-item-nombre">${g.descripcion}</div><div class="lista-item-detalle">${fFecha(g.fecha)}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="lista-item-monto" style="color:var(--rojo)">${money(g.monto)}</div><button class="btn btn-rojo btn-chico" onclick="borrarGastoSobre('${g.id}')">🗑️</button></div></div>`).join('')}</div></div>`;}).join('');}
 
 // ═══ RENDER DEUDAS ═══
 function renderDeudas(){const tp=DATA.deudaSandy.prestamos.reduce((s,p)=>s+p.monto,0);const ta=DATA.deudaSandy.abonos.reduce((s,a)=>s+a.monto,0);const sal=tp-ta;
@@ -453,10 +460,15 @@ function cobrarAlumna(id){const a=DATA.alumnas.find(x=>x.id===id);if(!a)return;a
 function guardarCobro(id){const m=parseFloat(document.getElementById('m-cm').value);const p=document.getElementById('m-cp').value;if(!m){mostrarToast('⚠️ Ingresa un monto');return;}DATA.cobrosAlumnas.push({id:uid(),alumnaId:id,fecha:hoyISO(),monto:m,periodo:p});guardarDatos();cerrarModal();renderGym();renderHome();sonarDing();vibrar();mostrarToast('✅ Cobro registrado');}
 function borrarCobro(id){if(confirm('¿Borrar este cobro?')){DATA.cobrosAlumnas=DATA.cobrosAlumnas.filter(x=>x.id!==id);guardarDatos();renderCobros();renderHome();mostrarToast('🗑️ Cobro borrado');}}
 function borrarVenta(id){if(confirm('¿Borrar esta venta?')){DATA.ventas=DATA.ventas.filter(x=>x.id!==id);guardarDatos();renderVentas();renderHome();mostrarToast('🗑️ Venta borrada');}}
-function modalProducto(){abrirModal(`<h3>➕ Nuevo producto</h3><label>Nombre:</label><input type="text" id="m-pn" placeholder="Agua, suplemento..."><label>Precio ($):</label><input type="number" id="m-pp" placeholder="15"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarProducto()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
-function guardarProducto(){const n=document.getElementById('m-pn').value.trim();const p=parseFloat(document.getElementById('m-pp').value);if(!n||!p){mostrarToast('⚠️ Completa los datos');return;}DATA.productos.push({id:uid(),nombre:n,precio:p});guardarDatos();cerrarModal();renderProductos();mostrarToast('✅ Producto agregado');}
+function modalProducto(){abrirModal(`<h3>➕ Nuevo producto</h3><label>Nombre:</label><input type="text" id="m-pn" placeholder="Creatina Birdman"><label>¿Cuánto te cuesta? ($):</label><input type="number" id="m-pcosto" placeholder="380"><label>¿En cuánto lo vendes? ($):</label><input type="number" id="m-pp" placeholder="500"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarProducto()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
+function guardarProducto(){const n=document.getElementById('m-pn').value.trim();const p=parseFloat(document.getElementById('m-pp').value);const c=parseFloat(document.getElementById('m-pcosto').value)||0;if(!n||!p){mostrarToast('⚠️ Completa nombre y precio de venta');return;}DATA.productos.push({id:uid(),nombre:n,precio:p,costo:c});guardarDatos();cerrarModal();renderProductos();renderVentas();mostrarToast('✅ Producto agregado');}
 function borrarProducto(id){if(confirm('¿Borrar este producto?')){DATA.productos=DATA.productos.filter(x=>x.id!==id);guardarDatos();renderProductos();}}
 function registrarVenta(){const pid=document.getElementById('venta-producto').value;const cant=parseInt(document.getElementById('venta-cantidad').value)||1;if(!pid){mostrarToast('⚠️ Agrega un producto primero');return;}const p=DATA.productos.find(x=>x.id===pid);DATA.ventas.push({id:uid(),productoId:pid,fecha:hoyISO(),cantidad:cant,montoTotal:p.precio*cant});guardarDatos();renderVentas();renderHome();sonarDing();vibrar();mostrarToast('✅ Venta: '+money(p.precio*cant));}
+function gananciaProductosMes(){const mes=hoyISO().substring(0,7);const vm=DATA.ventas.filter(v=>v.fecha.startsWith(mes));const vendido=vm.reduce((s,v)=>s+v.montoTotal,0);const costo=vm.reduce((s,v)=>{const p=DATA.productos.find(q=>q.id===v.productoId);return s+((p?p.costo||0:0)*v.cantidad);},0);return vendido-costo;}
+function modalMandarGanancia(){if(!DATA.sobres.length){mostrarToast('⚠️ Primero crea un sobre en 💰 Presup');return;}const g=gananciaProductosMes();abrirModal(`<h3>📥 Mandar ganancia a sobre</h3><p class="chico">Ganancia del mes: ${money(g)}</p><label>Sobre:</label><select id="m-mg-s">${DATA.sobres.map(s=>`<option value="${s.id}">${s.nombre}</option>`).join('')}</select><label>Monto a depositar:</label><input type="number" id="m-mg-m" value="${g}"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarMandarGanancia()">📥 Depositar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
+function guardarMandarGanancia(){const s=DATA.sobres.find(x=>x.id===document.getElementById('m-mg-s').value);const m=parseFloat(document.getElementById('m-mg-m').value);if(!s||!m){mostrarToast('⚠️ Completa los datos');return;}s.monto+=m;guardarDatos();cerrarModal();renderSobres();renderVentas();sonarDing();vibrar();mostrarToast('📥 Depositado a "'+s.nombre+'"');}
+function modalDeposito(id){const s=DATA.sobres.find(x=>x.id===id);if(!s)return;abrirModal(`<h3>📥 Depositar a: ${s.nombre}</h3><label>Monto:</label><input type="number" id="m-ds-m" placeholder="0"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarDeposito('${id}')">💾 Depositar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
+function guardarDeposito(id){const s=DATA.sobres.find(x=>x.id===id);const m=parseFloat(document.getElementById('m-ds-m').value);if(!m){mostrarToast('⚠️ Ingresa un monto');return;}s.monto+=m;guardarDatos();cerrarModal();renderSobres();sonarDing();vibrar();mostrarToast('✅ Depósito hecho');}
 function modalMeta(){abrirModal(`<h3>➕ Nueva meta</h3><label>Concepto:</label><input type="text" id="m-mc" placeholder="Renta, Luz..."><label>Monto mensual ($):</label><input type="number" id="m-mm" placeholder="8000"><button class="btn btn-principal" style="margin-top:10px" onclick="guardarMeta()">💾 Guardar</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
 function guardarMeta(){const c=document.getElementById('m-mc').value.trim();const m=parseFloat(document.getElementById('m-mm').value);if(!c||!m){mostrarToast('⚠️ Completa los datos');return;}DATA.metasGym.push({id:uid(),concepto:c,montoMensual:m});guardarDatos();cerrarModal();renderMetas();mostrarToast('✅ Meta creada');}
 function pagarMeta(id){const m=DATA.metasGym.find(x=>x.id===id);if(!m)return;abrirModal(`<h3>💰 Pagar: ${m.concepto}</h3><label>Monto:</label><input type="number" id="m-pg" placeholder="0"><button class="btn btn-verde" style="width:100%;margin-top:10px" onclick="guardarPagoMeta('${id}')">💾 Registrar pago</button><button class="btn btn-secundario" style="width:100%;margin-top:8px" onclick="cerrarModal()">Cancelar</button>`);}
@@ -529,11 +541,12 @@ DATA.config.ultimoImport=hoyISO();guardarDatos();renderSync();renderHome();sonar
 function generarReporte(){const desde=document.getElementById('rep-desde').value||hoyISO().substring(0,8)+'01';const hasta=document.getElementById('rep-hasta').value||hoyISO();const enR=x=>x.fecha>=desde&&x.fecha<=hasta;
 const cobros=DATA.cobrosAlumnas.filter(enR).reduce((s,c)=>s+c.monto,0);
 const ventasT=DATA.ventas.filter(enR).reduce((s,v)=>s+v.montoTotal,0);
+const costoP=DATA.ventas.filter(enR).reduce((s,v)=>{const p=DATA.productos.find(q=>q.id===v.productoId);return s+((p?p.costo||0:0)*v.cantidad);},0);
 const metasP=DATA.pagosMetas.filter(enR).reduce((s,p)=>s+p.monto,0);
 const copA=DATA.coppel.abonos.filter(enR).reduce((s,a)=>s+a.monto,0);
 const casaG=DATA.gastosCasa.filter(enR);const casaT=casaG.reduce((s,g)=>s+g.monto,0);
 const ingG=cobros+ventasT,ganG=ingG-metasP-copA;
-let t='🎸 CONTROL SANSAO · REPORTE\n📅 '+fFecha(desde)+' → '+fFecha(hasta)+'\n━━━━━━━━━━━━━━━━━━\n\n🩰 GYM LA FEMME\nIngresos de alumnas: '+money(cobros)+'\nVentas de productos: '+money(ventasT)+'\nTOTAL INGRESOS: '+money(ingG)+'\nGastos/Metas: -'+money(metasP)+'\nAbono Coppel: -'+money(copA)+'\nRESULTADO GYM: '+money(ganG)+'\n\n🏡 CASA\n';
+let t='🎸 CONTROL SANSAO · REPORTE\n📅 '+fFecha(desde)+' → '+fFecha(hasta)+'\n━━━━━━━━━━━━━━━━━━\n\n🩰 GYM LA FEMME\nIngresos de alumnas: '+money(cobros)+'\nVentas de productos: '+money(ventasT)+'\nCosto de mercancía: -'+money(costoP)+'\nGanancia de productos: '+money(ventasT-costoP)+'\nTOTAL INGRESOS: '+money(ingG)+'\nGastos/Metas: -'+money(metasP)+'\nAbono Coppel: -'+money(copA)+'\nRESULTADO GYM: '+money(ganG)+'\n\n🏡 CASA\n';
 casaG.forEach(g=>{t+='  · '+g.categoria+' ('+g.quienPago+'): '+money(g.monto)+'\n';});
 t+='TOTAL CASA: '+money(casaT)+'\n\n━━━━━━━━━━━━━━━━━━\n💳 SALDOS\nCoppel restante: '+money(DATA.coppel.totalAPagar-DATA.coppel.abonos.reduce((s,a)=>s+a.monto,0))+'\nDeuda Sandy: '+money(DATA.deudaSandy.prestamos.reduce((s,p)=>s+p.monto,0)-DATA.deudaSandy.abonos.reduce((s,a)=>s+a.monto,0))+'\n\nHecho con amor y ROCK 🎸';
 document.getElementById('reporte-texto').textContent=t;document.getElementById('reporte-resultado').style.display='block';mostrarToast('📊 Reporte generado');}
